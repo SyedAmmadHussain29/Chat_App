@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "101103803504",
+    "project_id": "chatbot-9821d",
+    "storage_bucket": "chatbot-9821d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101103803504:android:f6c093553ea6f14edbe8b5",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdYymCs9gHrMRVaVtOh-aCfjKOvXm9lWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "101103803504-980nuoeh11tr7kvrtofsee0qmgbidg7u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatGpt"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:101103803504:android:3945a7fe91849139dbe8b5",
+        "android_client_info": {
+          "package_name": "com.example.chat_gpt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdYymCs9gHrMRVaVtOh-aCfjKOvXm9lWQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "101103803504-980nuoeh11tr7kvrtofsee0qmgbidg7u.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.chatGpt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

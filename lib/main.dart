@@ -2,16 +2,23 @@ import 'package:chat_app/firebase_options.dart';
 import 'package:chat_app/screens/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 late Size mq;
 //Future<void> backgroundHandler(RemoteMessage message) async {}
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) {
+    initializeFirebase();
+    runApp(MyApp());
+  });
+
   //await FirebaseMessaging.instance.getInitialMessage();
   //FirebaseMessaging.onBackgroundMessage(backgroundHandler);
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -26,4 +33,8 @@ class MyApp extends StatelessWidget {
         ),
         home: const splashScreen());
   }
+}
+
+initializeFirebase() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 }

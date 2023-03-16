@@ -1,6 +1,8 @@
 import 'package:chat_app/main.dart';
+import 'package:chat_app/screens/auth/loginscreen.dart';
 import 'package:chat_app/screens/homescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
@@ -14,9 +16,12 @@ class _splashScreenState extends State<splashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(const Duration(milliseconds: 1500), () {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (_) => const MyHomePage(title: "title")));
+    Future.delayed(const Duration(milliseconds: 2500), () {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(
+          const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (_) => const loginScreen()));
     });
   }
 

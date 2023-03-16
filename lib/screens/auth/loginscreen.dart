@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:chat_app/main.dart';
 import 'package:chat_app/screens/homescreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class loginScreen extends StatefulWidget {
   const loginScreen({super.key});
@@ -20,6 +24,40 @@ class _loginScreenState extends State<loginScreen> {
         _isanimated = true;
       });
     });
+  }
+
+  handleGoogleBtnClick() {
+    signInWithGoogle().then((user) {
+      print("User: ${user.user}");
+      print("\nUserAdditionlaInfo:${user.additionalUserInfo}");
+
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (_) => const MyHomePage(title: "title")));
+    });
+  }
+
+  Future<UserCredential> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  //Signout
+  signout() async {
+    await FirebaseAuth.instance.signOut();
+    await GoogleSignIn().signOut();
   }
 
   @override
@@ -49,10 +87,7 @@ class _loginScreenState extends State<loginScreen> {
                   elevation: 1,
                 ),
                 onPressed: () {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => const MyHomePage(title: "title")));
+                  handleGoogleBtnClick();
                 },
                 icon: Image.asset(
                   "images/google.png",

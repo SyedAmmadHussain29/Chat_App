@@ -38,6 +38,20 @@ dependencies:
   firebase_core: ^2.7.1
   google_sign_in: ^6.0.2
   firebase_auth: ^4.2.10
+  get: ^4.6.5
+  intl_phone_field: ^3.1.0
+  pin_code_fields: ^7.4.0
+  pinput: ^2.2.12
+  google_fonts: ^3.0.1
+  cloud_firestore: ^4.7.0
+  firebase_storage: ^11.2.0
+  bot_toast: ^4.0.3
+  fluttertoast: ^8.0.9
+  image_picker: ^0.8.5+3
+  record_mp3: ^3.0.0
+  sizer: ^2.0.15
+  audioplayers: ^4.0.1
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

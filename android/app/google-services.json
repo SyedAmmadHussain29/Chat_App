@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+          "client_id": "101103803504-k7pe5khqto6tk36ta7g0q0jrvoie391s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chat_app",
+            "certificate_hash": "fb6d41d24d1f49aec22761d34be4ae7face6d7e2"
+          }
+        },
+        {
+          "client_id": "101103803504-jon1c255u320bqn6lo5hmbo74qsp91ah.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+              "client_id": "101103803504-jon1c255u320bqn6lo5hmbo74qsp91ah.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -43,14 +51,22 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:101103803504:android:3945a7fe91849139dbe8b5",
+        "mobilesdk_app_id": "1:101103803504:android:0e0907309b783161dbe8b5",
         "android_client_info": {
-          "package_name": "com.example.chat_gpt"
+          "package_name": "com.example.puzzle_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+          "client_id": "101103803504-fceith0lu6voo9812267kp7v1l4v45o7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.puzzle_app",
+            "certificate_hash": "fb6d41d24d1f49aec22761d34be4ae7face6d7e2"
+          }
+        },
+        {
+          "client_id": "101103803504-jon1c255u320bqn6lo5hmbo74qsp91ah.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -63,7 +79,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "101103803504-qohf3fk9r5rneo8hoklckjsg4pvhqnjv.apps.googleusercontent.com",
+              "client_id": "101103803504-jon1c255u320bqn6lo5hmbo74qsp91ah.apps.googleusercontent.com",
               "client_type": 3
             },
             {

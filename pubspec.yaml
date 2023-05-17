@@ -52,6 +52,7 @@ dependencies:
   sizer: ^2.0.15
   audioplayers: ^4.0.1
   permission_handler: ^10.2.0
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

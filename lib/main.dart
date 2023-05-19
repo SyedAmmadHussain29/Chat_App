@@ -1,8 +1,9 @@
 import 'package:chat_app/firebase_options.dart';
-import 'package:chat_app/view/screens/splashscreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'view/screens/splashscreen.dart';
 
 late Size mq;
 //Future<void> backgroundHandler(RemoteMessage message) async {}
@@ -29,7 +30,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SplashScreen());
+        home: const SplashScreen()
+        //MainScreen()
+        );
   }
 }
 

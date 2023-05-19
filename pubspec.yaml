@@ -47,7 +47,6 @@ dependencies:
   firebase_storage: ^11.2.0
   bot_toast: ^4.0.3
   fluttertoast: ^8.0.9
-  image_picker: ^0.8.5+3
   record_mp3: ^3.0.0
   sizer: ^2.0.15
   audioplayers: ^4.0.1

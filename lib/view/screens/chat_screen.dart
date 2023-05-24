@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chat_app/API/api.dart';
 import 'package:chat_app/Model/message.dart';
 import 'package:chat_app/Model/user_model.dart';
 import 'package:chat_app/main.dart';
 import 'package:chat_app/view/screens/message_Card.dart';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ChatScreen extends StatefulWidget {
   final UserModel user;
@@ -16,60 +20,105 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   List<Message> _list = [];
+  bool _showemoji = false;
+  bool _isUploading = false;
   //for messages controller
   final _textController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          flexibleSpace: _appBar(),
-        ),
-        body: Column(children: [
-          Expanded(
-            child: StreamBuilder(
-                stream: APIs.getAllMessages(widget.user),
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    //if data is loading
-                    case ConnectionState.waiting:
-                    case ConnectionState.none:
-                      return const Center(child: SizedBox());
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SafeArea(
+        child: WillPopScope(
+          onWillPop: () {
+            if (_showemoji) {
+              setState(() {
+                _showemoji = !_showemoji;
+              });
+              return Future.value(false);
+            } else {
+              return Future.value(true);
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              flexibleSpace: _appBar(),
+            ),
+            body: Column(children: [
+              Expanded(
+                child: StreamBuilder(
+                    stream: APIs.getAllMessages(widget.user),
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        //if data is loading
+                        case ConnectionState.waiting:
+                        case ConnectionState.none:
+                          return const Center(child: SizedBox());
 
-                    //if data load so show
-                    case ConnectionState.active:
-                    case ConnectionState.done:
-                      final data = snapshot.data?.docs;
-                      _list = data
-                              ?.map((e) => Message.fromJson(e.data()))
-                              .toList() ??
-                          [];
+                        //if data load so show
+                        case ConnectionState.active:
+                        case ConnectionState.done:
+                          final data = snapshot.data?.docs;
+                          _list = data
+                                  ?.map((e) => Message.fromJson(e.data()))
+                                  .toList() ??
+                              [];
 
-                      if (_list.isNotEmpty) {
-                        return ListView.builder(
-                          itemCount: _list.length,
-                          padding: EdgeInsets.only(top: mq.height * .01),
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return MessageCard(
-                              message: _list[index],
+                          if (_list.isNotEmpty) {
+                            return ListView.builder(
+                              reverse: true,
+                              itemCount: _list.length,
+                              padding: EdgeInsets.only(top: mq.height * .01),
+                              physics: const BouncingScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return MessageCard(
+                                  message: _list[index],
+                                );
+                              },
                             );
-                          },
-                        );
-                      } else {
-                        return const Center(
-                          child: Text(
-                            "Say Hi",
-                            style: TextStyle(fontSize: 25),
-                          ),
-                        );
+                          } else {
+                            return const Center(
+                              child: Text(
+                                "Say Hi",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                            );
+                          }
                       }
-                  }
-                }),
+                    }),
+              ),
+              //uploading images
+              if (_isUploading)
+                Align(
+                    alignment: Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 2, horizontal: 8),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                        ),
+                      ),
+                    )),
+              _chatInput(),
+              //emoji
+              //show emojis on keyboard emoji button click & vice versa
+              if (_showemoji)
+                SizedBox(
+                  height: mq.height * .35,
+                  child: EmojiPicker(
+                    textEditingController: _textController,
+                    config: Config(
+                      bgColor: const Color.fromARGB(255, 234, 248, 255),
+                      columns: 8,
+                      emojiSizeMax: 32 * (Platform.isIOS ? 1.30 : 1.0),
+                    ),
+                  ),
+                )
+            ]),
           ),
-          _chatInput(),
-        ]),
+        ),
       ),
     );
   }
@@ -144,33 +193,74 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: [
                   IconButton(
                       onPressed: () {
-                        Navigator.pop(context);
+                        setState(() {
+                          _showemoji = !_showemoji;
+                        });
                       },
                       icon: Icon(
                         Icons.emoji_emotions,
-                        color: Colors.blue,
+                        color: Colors.black,
                       )),
                   Expanded(
                       child: TextField(
                     controller: _textController,
                     keyboardType: TextInputType.multiline,
                     maxLines: null,
+                    onTap: () {
+                      setState(() {
+                        FocusScope.of(context).unfocus();
+                        if (_showemoji)
+                          setState(() {
+                            _showemoji = !_showemoji;
+                          });
+                      });
+                    },
                     decoration: const InputDecoration(
                         hintText: "Message",
                         hintStyle: TextStyle(color: Colors.blue),
                         border: InputBorder.none),
                   )),
+                  //Image icon
                   IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+                        // Pick an image.
+                        final List<XFile>? images =
+                            await picker.pickMultiImage(imageQuality: 80);
+
+                        for (var i in images!) {
+                          setState(() {
+                            _isUploading = true;
+                          });
+                          await APIs.sendChatImage(widget.user, File(i.path));
+                          setState(() {
+                            _isUploading = false;
+                          });
+                        }
                       },
                       icon: Icon(
                         Icons.image,
                         color: Colors.blue,
                       )),
+
+                  //Camera icon
                   IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+                        // Pick an image.
+                        final XFile? image = await picker.pickImage(
+                            source: ImageSource.camera, imageQuality: 80);
+                        if (image != null) {
+                          setState(() {
+                            _isUploading = true;
+                          });
+                          //print image path
+                          await APIs.sendChatImage(
+                              widget.user, File(image.path));
+                          setState(() {
+                            _isUploading = false;
+                          });
+                        }
                       },
                       icon: Icon(
                         Icons.camera_alt_rounded,
@@ -186,7 +276,7 @@ class _ChatScreenState extends State<ChatScreen> {
           MaterialButton(
             onPressed: () {
               if (_textController.text.isNotEmpty) {
-                APIs.sendMessage(widget.user, _textController.text);
+                APIs.sendMessage(widget.user, _textController.text, Type.text);
                 _textController.text = "";
               }
             },
